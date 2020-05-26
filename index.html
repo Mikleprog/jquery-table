@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset = "utf-8">
+    <title> Jquary-table </title> 
+    <link rel="stylesheet" type="text/css" href="mystyle.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">     
+    
+  </head>
+  <body>
+    
+  <div class = "container">
+    <div class="d-flex">
+      <div class = "p-2">
+        <input type ="search" class = "inpurtSearch" placeholder="Enter product name..."
+        id = "search-text" onchange="tableSearch()">
+      </div>
+
+      <div class = "p-2">
+        <button type = "button" class="btn btn-success" id = "search" onclick="tableSearch()">
+         Search
+        </button>
+      </div>
+     
+      <div class = "ml-auto p-2">
+      <button type = "button" class="btn btn-secondary" onclick= "showCity()" data-toggle="modal" data-target="#myModal1">
+       Add new
+      </button>
+      </div>
+  </div>
+
+  <div id="grid-holder"></div>
+    <script type="text/template" id="grid-template">
+      <table class ="table table-bordered table-hover" id="grid">
+        <thead class  = "border" >
+          <tr>
+            <th data-type="string" onclick="sort()">Name
+              <span class="glyphicon glyphicon-triangle-bottom float-right" id="sortNameDown" hidden></span>
+              <span class="glyphicon glyphicon-triangle-top float-right"  id = "sortNameUp" hidden></span>
+            </th>
+            <th data-type="number" onclick ="sortPrice()">Price
+              <span class="glyphicon glyphicon-triangle-bottom float-right" id = "upPrice" hidden></span>
+              <span class="glyphicon glyphicon-triangle-top float-right" hidden></span>
+            
+            </th>
+            <th> Actions </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(var i = 0; i < list.length; i++) { %>
+            <tr>
+              <td>
+                <%=list[i].name%>
+                <span class="badge badge-secondary float-right"> <%=list[i].count%></span>
+              </td>
+              <td>
+                <%=numberToCurrency(list[i].price)%>
+              </td>
+              <td>
+                <button type = "button" class="btn btn-info" onclick ="editTheCurrentItem()" data-toggle="modal" data-target="#myModal1"> Edit</button> 
+                <button type = "button" class="btn btn-info float-right" onclick ="indexOfDeliteItem()" data-toggle="modal" 
+                data-target="#myModal"> Delete</button>
+              </td>
+            </tr>
+            <% } %>
+        </tbody>
+      </table>
+    </script>
+   
+  
+  <div class="modal" tabindex="-1" role="dialog" id = "myModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" >Are you shure?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          </button>
+          </div>
+        <div class="modal-body">
+        <p id="deliteProductName"></p>
+                  
+        <button type="button" class="btn btn-primary" onclick = "deleteCurrentItem()"  data-dismiss="modal"  >Yes</button>
+        <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <!--  -->
+  <div class="modal" tabindex="-1" role="dialog" id = "myModal1">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title"> Product Name</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form id = "myForm">
+      <div class="modal-body">
+        <div class="form-group col-7">
+          <label for="name">Name: *</label>
+          <input type="text" class="form-control" id="name" placeholder="Enter product name..." name="email">
+        </div>
+        <div class="form-group col-7">
+          <label for="email">Supplier email: *</label>
+          <input type="text" class="form-control" id="email" placeholder="Enter email" name="email">
+        </div>
+        <div class="form-group col-3">
+           <label for="count">Count: *</label>
+           <input type="number" min = "0" class = "form-control" id="count" placeholder="Count" name="count">
+        </div>
+        <div>
+          <div class="form-group col-7">
+            <label for="price">Price: *</label>
+            <input type="text" class="form-control" id="price" placeholder="$" name="price">
+          </div>
+
+          <div class = "form-row">
+          <div class="form-group col-md-5">
+            <label for="inputState"> Delivery: </label>
+            <select id="delivery" class="form-control" onchange="showCity()" >
+              <option> </option>
+              <option value="Russia" selected  > Russia </option>
+              <option value="Belorus"> Belorus </option>
+              <option value="USA"> USA </option>
+            </select>
+          </div>
+             <br>
+
+          <div class = "border border-primary col-4" id="selectAll" style="visibility:hidden;" >
+            <form > 
+            <div class="custom-control custom-checkbox border-bottom ">
+              <input type="checkbox" class="custom-control-input" id="all" name="example1" onclick="check()">
+              <label class="custom-control-label" for="all">Select all</label>
+            </div>
+            <div class="custom-control custom-checkbox  ">
+              <input type="checkbox" class="custom-control-input" id="box1" name="example1" >
+              <label class="custom-control-label" show-info for="box1" id="valuebox1"></label>
+            </div>
+            <div class="custom-control custom-checkbox ">
+              <input type="checkbox" class="custom-control-input" id="box2" name="example1">
+              <label class="custom-control-label" show-info for="box2" id="valuebox2"></label>
+            </div>
+            <div class="custom-control custom-checkbox  ">
+              <input type="checkbox" class="custom-control-input" id="box3" name="example1">
+              <label class="custom-control-label" show-info for="box3" id="valuebox3"></label>
+            </div>
+            <form>>
+            </div>
+          </div>
+           
+        </div> 
+        <input type="submit" value="Save changes"class="btn btn-primary"  id="submit" >                         
+        <button type="button" class="btn btn-secondary " data-dismiss="modal">No</button>
+      </div> 
+      </div>
+      </div>
+    </div>
+  </div>
+
+
+<script src = "getElement.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.js"></script>
+</body>
+</html>

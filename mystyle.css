@@ -1,0 +1,47 @@
+body {
+  background:linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url("backgroundImg.jpg");
+  font-family: Tahoma, Verdana,  sans-serif;
+}
+.flex-container {
+  display: flex;
+  background-color: dodgerblue;
+  margin-left:10%;
+  margin-right:10%;
+}
+.flex-container > div {
+  background-color:#f1f1f1;
+  margin: 10px;
+  border-radius: 5px;
+  
+
+}
+.under table {
+    width: 200px;
+    height: 50px;
+    background-color: lightseagreen;
+    overflow: visible;
+  }
+
+  .check {
+    box-shadow: 0 0 5px 1px red;
+  }
+  
+  input:focus:invalid {
+    outline: none;
+  }
+  .error {
+    box-shadow: 0 0 5px 1pх red;
+   
+    padding: 0;
+    font-size: 80%;
+    
+    color: red;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-color: red;
+  }
+  
+  .error.active {
+    padding: 0.3em;
+  }
+  
